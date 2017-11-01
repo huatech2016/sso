@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns:android="http://schemas.android.com/apk/res/android"
+    id="cordova-plugin-sso" version="1.0.0"
+    xmlns="http://apache.org/cordova/ns/plugins/1.0">
+
+    <name>sso Plugin</name>
+    <description>sso for sxykd university</description>
+    <author>huatech</author>
+    <license>MIT License</license>
+
+    <js-module name="SsoPlugin" src="www/ssoPlugin.js">
+        <clobbers target="ISsoPlugin" />
+    </js-module>
+
+    <platform name="android">
+        <config-file parent="/*" target="res/xml/config.xml">
+            <feature name="SsoPlugin">
+                <param name="android-package" value="huatech.plugin.sso.SsoPlugin" />
+            </feature>
+        </config-file>
+
+
+        <source-file src="src/android/SsoPlugin.java"
+            target-dir="src/huatech/plugin/sso/SsoPlugin.java" />
+        <config-file parent="/manifest/application" target="AndroidManifest.xml">
+            <activity android:name="com.wisedu.idsauthsdk.IdsAuthActivity"
+                android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        </config-file>
+        <source-file src="src/android/libs/android-async-http-1.4.8.jar" target-dir="libs" />
+        <source-file src="src/android/libs/idsauthsdk.jar" target-dir="libs" />
+
+    </platform>
+</plugin>

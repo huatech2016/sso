@@ -16,7 +16,7 @@ import org.json.JSONArray;
 
 public class SsoPlugin extends CordovaPlugin implements IdsLogOutUtil.OnLogOutListener {
     private static final String oauthUrl = "http://authserver.sxmu.edu.cn/authserver";//ids授权地址
-    private static final String oauthAppId = "803934561";//学校appid
+    private static final String oauthAppId = "561180257";//学校appid
     private CallbackContext callbackContext;
     private String token = "";
     private IdsLogOutUtil idsLogOutUtil;

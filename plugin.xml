@@ -21,7 +21,7 @@
 
 
         <source-file src="src/android/SsoPlugin.java"
-            target-dir="src/huatech/plugin/sso/SsoPlugin.java" />
+            target-dir="src/huatech/plugin/sso" />
         <config-file parent="/manifest/application" target="AndroidManifest.xml">
             <activity android:name="com.wisedu.idsauthsdk.IdsAuthActivity"
                 android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />

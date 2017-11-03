@@ -30,4 +30,34 @@
         <source-file src="src/android/libs/idsauthsdk.jar" target-dir="libs" />
 
     </platform>
+
+    <platform name="ios">
+        <hook type="after_plugin_install" src="../../scripts/ios/ios-config-jpush.js" />
+
+        <config-file target="config.xml" parent="/*">
+            <feature name="SsoPlugin">
+                <param name="ios-package" value="SsoPlugin" />
+            </feature>
+        </config-file>
+
+        <header-file src="src/ios/Plugins/SsoPlugin.h" />
+        <source-file src="src/ios/Plugins/SsoPlugin.m" />
+
+
+        <header-file src="src/ios/Plugins/IDSManager.h" />
+        <source-file src="src/ios/Plugins/IDSManager.m" />
+
+        <header-file src="src/ios/Plugins/IDS.h" />
+        <header-file src="src/ios/Plugins/IDSService.h" />
+        <header-file src="src/ios/Plugins/IDSServiceObj.h" />
+
+
+
+        <resource-file src="src/ios/SsoConfig.plist" />
+        <source-file src="src/ios/lib/libIDS.a" framework="true" />
+
+        <!--<framework src="UserNotifications.framework" weak="true" />-->
+
+
+    </platform>
 </plugin>

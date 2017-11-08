@@ -1,6 +1,6 @@
 #import <Cordova/CDVPlugin.h>
 #import "IDS.h"
-@interface CDVSso : CDVPlugin
+@interface SsoPlugin : CDVPlugin
 
 - (void)getSsoToken:(CDVInvokedUrlCommand*)command;
 - (void)logoutToken:(CDVInvokedUrlCommand*)command;

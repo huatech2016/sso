@@ -1,24 +1,33 @@
 #import "SsoPlugin.h"
 
-@implementation Open
+@implementation CDVSso
+
+@synthesize datas, result,command1;
+
 
 - (void)getSsoToken:(CDVInvokedUrlCommand *)command {
-
 
   //CDVPluginResult* commandResult = nil;
   //commandResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@""];
   //commandResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsInt:0];
   //commandResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
   //[self.commandDelegate sendPluginResult:commandResult callbackId:command.callbackId];
+    //array = [[NSArray alloc] initWithArray:nil];
+   //pluginResult = [CDVPluginResult resultWithStatus:(CDVCommandStatus_OK) messageAsArray:array];
+    datas = [[NSMutableArray alloc] init];
+    result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:datas];
+    command1 = command;
+    [result setKeepCallbackAsBool:YES];
+    
     [[IDSService defaultService] authorize:^(IDSServiceObj *obj) {
-
+        
+        
         if (obj.code == IDSResultSuccess) {
             //获取用户信息
-            NSLog(@"%@",obj.data);
-            //[self refreshButtonStatus:YES];
-           // showTxt.text = [NSString stringWithFormat:@"token:%@",obj.data];
+            //NSLog(@"%@",obj.data);
             [[NSUserDefaults standardUserDefaults] setObject:obj.data forKey:@"login_token"];
-
+            NSString *token = obj.data;
+            [datas addObject:token];
             [self performSelector:@selector(getProfile) withObject:nil afterDelay:0.5];
         }
     }];
@@ -29,50 +38,39 @@
 {
     [[IDSService defaultService] getProfile:^(IDSServiceObj *obj) {
 
-        NSString *msg = @"";
+        NSString *msg = @"需要重新授权";
 
         if (obj.code == IDSResultSuccess) {
-            msg = [NSString stringWithFormat:@"返回：%@",obj.data];
+            [datas addObject:[obj.data description]];
         }
-        else{
-            msg = [NSString stringWithFormat:@"返回：%@",obj.msg];
-        }
-        [self showMessage:msg];
+        
         if (obj.code == IDSResultNotAuthorized) {
-            //需要重新授权
             NSLog(@"需要重新授权");
-
-            //[self refreshButtonStatus:NO];
-            //showTxt.text = @"token:";
+             [datas addObject:msg];
             [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"login_token"];
 
         }
+        
+        [result setKeepCallbackAsBool:NO];
+        [self.commandDelegate sendPluginResult:result callbackId:command1.callbackId];
     }];
 }
 
 
-- (void)logoutToken
+- (void)logoutToken:(CDVInvokedUrlCommand *)command2
 {
     [[IDSService defaultService] logout:^(IDSServiceObj *obj) {
-
+        CDVPluginResult *commandResult = nil;
         if (obj.code == IDSResultSuccess) {
-            //[self refreshButtonStatus:NO];
-            //showTxt.text = @"token:";
             [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"login_token"];
-            [self showMessage:@"登出成功"];
+              commandResult = [CDVPluginResult resultWithStatus:(CDVCommandStatus_OK) messageAsString:@"登出成功"];
         }
         else{
-            //[self showMessage:obj.msg];
+            commandResult = [CDVPluginResult resultWithStatus:(CDVCommandStatus_OK) messageAsString:obj.msg]; ;
         }
+        
+         [self.commandDelegate sendPluginResult:commandResult callbackId:command2.callbackId];
     }];
-
-
-      //if (result) {
-       //      pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-       //  } else {
-       //      pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
-       //  }
-       //    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 @end

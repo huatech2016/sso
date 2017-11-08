@@ -1,8 +1,12 @@
 #import <Cordova/CDVPlugin.h>
-
-@interface CDVUpdateApp : CDVPlugin
+#import "IDS.h"
+@interface CDVSso : CDVPlugin
 
 - (void)getSsoToken:(CDVInvokedUrlCommand*)command;
 - (void)logoutToken:(CDVInvokedUrlCommand*)command;
+
+@property (nonatomic, strong) CDVPluginResult* result;
+@property (nonatomic, strong) NSMutableArray* datas;
+@property (nonatomic, strong) CDVInvokedUrlCommand* command1;
 
 @end

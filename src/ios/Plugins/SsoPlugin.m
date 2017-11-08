@@ -1,6 +1,6 @@
 #import "SsoPlugin.h"
 
-@implementation CDVSso
+@implementation SsoPlugin
 
 @synthesize datas, result,command1;
 
